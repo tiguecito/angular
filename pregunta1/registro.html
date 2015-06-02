@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="registro">
+<head>
+   <meta charset="UTF-8">
+   <title>Registro Angular</title>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container">
+   <div class="row">
+      <div class="col-md-12">
+         <div style="text-align:center;"><img src="images/b-logo-2.png" alt=""></div>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-md-12">
+         <a href="/login" style="padding:3px;border-radius:3px;background:#0088CE;color:white">Ir a login</a>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-md-12">
+            <div class="row">
+               <div class="col-md-4" ng-controller="validarCodCtrl">
+                  <form ng-submit="consultar(formCodigo)" name="formVerificarCodigo">
+                     <div class="form-group" ng-class="{'has-error': formVerificarCodigo.id_libro.$invalid && !formVerificarCodigo.id_libro.$pristine}">
+                        <label for="libro">Libro</label>
+                        <select id="libro-reg" name="id_libro" class="form-control" ng-model="formCodigo.id_libro" required></select>
+                     </div>
+                     <div class="form-group has-feedback" ng-class="{'has-error': formVerificarCodigo.cod_libro.$invalid && formVerificarCodigo.cod_libro.$dirty}">
+                        <label for="cod_libro">Codigo de libro</label>
+                        <input type="text" name="cod_libro" class="form-control" ng-model="formCodigo.codigo" ng-minlength="0" ng-maxlength="12" ng-required="true">
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="formVerificarCodigo.cod_libro.$invalid && formVerificarCodigo.cod_libro.$dirty"></span>
+                     </div>
+                     <input type="submit" value="Validar código" class=d"btn btn-success" ng-disabled="formVerificarCodigo.$invalid">
+                     <p ng-if="formCodigo.error">El código no existe</p>
+                  </form>
+               </div>
+            </div>
+      </div>
+   </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<!-- IMPORTANTE -->
+<!-- Este código me ese útil para rellenar el combo box con datos enviado por NodeJs.
+No tiene ninguna relevancia en el trabajo con Angular (para el caso de mi pregunta) -->
+
+<script type="text/javascript">
+      libros = <%-JSON.stringify(libros)%>;
+      $("#libro-reg").append('<option value="#">---</option>');
+      libros.forEach(function(obj){
+         $("#libro-reg").append('<option value="'+ obj.id_libro +'">'+ obj.titulo +'</option>');
+      });
+   </script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+<script src="js/app_angular/app_registro.js"></script>
+<script src="js/app_angular/services/validarCodService.js"></script>
+<script src="js/app_angular/controllers/validarCodController.js"></script>
+</body>
+</html>
